@@ -1,0 +1,29 @@
+{
+    "name": "mnemesong/structure",
+    "description": "A library for creating and working with objects that are dynamic associative arrays of scalar values.",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mnemesong\\Structure\\": "src/",
+            "Mnemesong\\StructureUnitTest\\": "test-unit/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pantagruel74",
+            "email": "tostar74@mail.ru"
+        }
+    ],
+    "scripts": {
+        "test:unit": "phpunit test-unit"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "webmozart/assert": "*"
+    }
+}
