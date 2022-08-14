@@ -1,4 +1,4 @@
-<h1>pantagruel74/halley-orm-core</h1>
+<h1>mnemesong/structure</h1>
 The documentation is written in two languages: Russian and English.
 Документация написана на двух языках: русском и английском.
 <hr>
