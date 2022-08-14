@@ -72,48 +72,21 @@ class StructureTest extends TestCase
         $this->assertEquals($struct->toArray(), ['var1' => 'someStr', 'var2' => 12, 'a12' => 'var1af!']);
     }
 
-    public function testToObject()
-    {
-        $struct = new Structure(['var1' => 'someStr', 'var2' => 12]);
-        $struct->a12 = 'var1af!';
-        $this->assertEquals($struct->toObject(), (object) ['var1' => 'someStr', 'var2' => 12, 'a12' => 'var1af!']);
-    }
-
-    public function testContructors()
-    {
-        $struct = Structure::fromArray(['var1' => 'someStr', 'var2' => 12]);
-        $this->assertEquals($struct->toObject(), (object) ['var1' => 'someStr', 'var2' => 12]);
-        $struct = Structure::fromObject((object) ['var1' => 'someStr', 'var2' => 12]);
-        $this->assertEquals($struct->toObject(), (object) ['var1' => 'someStr', 'var2' => 12]);
-    }
-
     public function testConstructorsException1()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $struct = Structure::fromArray(['!var1' => 'someStr']);
+        $struct = new Structure(['!var1' => 'someStr']);
     }
 
     public function testConstructorsException2()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $struct = Structure::fromArray(['val1', 'val2']);
-    }
-
-    public function testConstructorsException3()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $struct = Structure::fromObject((object) ['!var1' => 'someStr']);
-    }
-
-    public function testConstructorsException4()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $struct = Structure::fromObject((object) ['val1', 'val2']);
+        $struct = new Structure(['val1', 'val2']);
     }
 
     public function testHasAttribute()
     {
-        $struct = Structure::fromArray(['var1' => 'someStr', 'var2' => 12]);
+        $struct = new Structure(['var1' => 'someStr', 'var2' => 12]);
         $this->assertTrue($struct->hasAttribute('var2'));
         $this->assertFalse($struct->hasAttribute('var3'));
 

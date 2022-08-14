@@ -18,24 +18,25 @@ use Webmozart\Assert\Assert;
  */
 class Structure implements StructureInterface
 {
+    /* @var array<scalar|null> $fields */
+    /* @phpstan-ignore-next-line */
     protected array $fields;
 
     /**
-     * @param array $attributesAndValues
+     * @param array<null|scalar> $attributesAndValues
      */
     public function __construct(array $attributesAndValues = [])
     {
         foreach ($attributesAndValues as $key => $value) {
-            $this->checkAttributeName(strval($key));
-            Assert::false(is_array($value), "All values in array should be scalar");
-            Assert::false(is_object($value), "All values in array should be scalar");
+            $this->$key = $value;
         }
         $this->fields = $attributesAndValues;
     }
 
+
     /**
      * @param string $attributeName
-     * @return mixed|null
+     * @return scalar|null
      */
     public function __get(string $attributeName)
     {
@@ -45,14 +46,13 @@ class Structure implements StructureInterface
 
     /**
      * @param string $attributeName
-     * @param $value
+     * @param scalar|null $value
      * @return void
      */
     public function __set(string $attributeName, $value): void
     {
-        $this->checkAttributeName(strval($attributeName));
-        Assert::false(is_array($value), "All values in array should be scalar");
-        Assert::false(is_object($value), "All values in array should be scalar");
+        $this->checkAttributeName($attributeName);
+        Assert::nullOrScalar($value, "All values in array should be scalar");
         $this->fields[$attributeName] = $value;
     }
 
@@ -78,19 +78,11 @@ class Structure implements StructureInterface
     }
 
     /**
-     * @return array
+     * @return array<null|scalar>
      */
     public function toArray(): array
     {
         return $this->fields;
-    }
-
-    /**
-     * @return object
-     */
-    public function toObject(): object
-    {
-        return (object) $this->fields;
     }
 
     /**
@@ -114,8 +106,8 @@ class Structure implements StructureInterface
     }
 
     /**
-     * @param array $attributes
-     * @return array
+     * @param string[] $attributes
+     * @return Structure
      */
     public function buildNewFromAttributes(array $attributes): self
     {
@@ -124,24 +116,6 @@ class Structure implements StructureInterface
             fn(string $attrName) => (in_array($attrName, $attributes)),
             ARRAY_FILTER_USE_KEY
         ));
-    }
-
-    /**
-     * @param array $attributesAndValues
-     * @return static
-     */
-    public static function fromArray(array $attributesAndValues): self
-    {
-        return new self($attributesAndValues);
-    }
-
-    /**
-     * @param object $attributesAndValues
-     * @return static
-     */
-    public static function fromObject(object $attributesAndValues): self
-    {
-        return new self((array) $attributesAndValues);
     }
 
     /**
@@ -237,6 +211,7 @@ class Structure implements StructureInterface
      * @param callable $mapFunction
      * @return array
      */
+    /* @phpstan-ignore-next-line */
     public function map(callable $mapFunction):array
     {
         $res = [];
@@ -249,7 +224,7 @@ class Structure implements StructureInterface
 
     /**
      * @param string $attr
-     * @return $this
+     * @return self
      */
     public function removeAttribute(string $attr): self
     {
@@ -260,7 +235,7 @@ class Structure implements StructureInterface
 
     /**
      * @param string[] $attrs
-     * @return $this
+     * @return self
      */
     public function getOnlyAttributes(array $attrs): self
     {
@@ -282,7 +257,7 @@ class Structure implements StructureInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAttributesList(): array
     {

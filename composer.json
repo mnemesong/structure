@@ -3,7 +3,11 @@
     "description": "A library for creating and working with objects that are dynamic associative arrays of scalar values.",
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-webmozart-assert": "*",
+        "phpstan/extension-installer": "*",
+        "mnemesong/collection-generator": "*"
     },
     "license": "MIT",
     "autoload": {
@@ -19,11 +23,21 @@
         }
     ],
     "scripts": {
-        "test:unit": "phpunit test-unit"
+        "test:unit": "phpunit test-unit",
+        "lint:src": "phpstan analyse src --level 9",
+        "lint:unit": "phpstan analyse test-unit --level 9",
+        "gen:coll": "collection-generator"
     },
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.4",
-        "webmozart/assert": "*"
+        "webmozart/assert": "*",
+        "mnemesong/spex": "0.2.*",
+        "ext-json": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }
