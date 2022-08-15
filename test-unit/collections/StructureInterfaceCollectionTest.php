@@ -144,7 +144,7 @@ class StructureInterfaceCollectionTest extends TestCase
     {
         $collection = new StructureInterfaceCollection(self::getArrayObjects());
         $newCollection = $collection
-            ->filteredBy(fn(Structure $object) => (strlen($object->getAttribute('name')) > 5));
+            ->filteredBy(fn(Structure $object) => (strlen($object->get('name')) > 5));
 
         //Test filtering
         $this->assertEquals([
@@ -166,7 +166,7 @@ class StructureInterfaceCollectionTest extends TestCase
     {
         $collection = new StructureInterfaceCollection(self::getArrayObjects());
         $mapped = $collection
-            ->map(fn(Structure $object) => ($object->getAttribute('name') . '!'));
+            ->map(fn(Structure $object) => ($object->get('name') . '!'));
 
         //Test filtering
         $this->assertEquals([
@@ -189,7 +189,7 @@ class StructureInterfaceCollectionTest extends TestCase
     {
         $collection = new StructureInterfaceCollection(self::getArrayObjects());
         $newCollection = $collection
-            ->reworkedBy(fn(Structure $object) => (new Structure(['name' => $object->getAttribute('name') . '!'])));
+            ->reworkedBy(fn(Structure $object) => (new Structure(['name' => $object->get('name') . '!'])));
 
         //Test reworking
         $this->assertEquals([
@@ -294,7 +294,7 @@ class StructureInterfaceCollectionTest extends TestCase
     {
         $collection = new StructureInterfaceCollection(self::getArrayObjects());
         $newCollection = $collection
-            ->sortedBy(fn(Structure $obj1, Structure $obj2) => (strcasecmp($obj1->getAttribute('name'), $obj2->getAttribute('name'))));
+            ->sortedBy(fn(Structure $obj1, Structure $obj2) => (strcasecmp($obj1->get('name'), $obj2->get('name'))));
 
         //Test sorting
         $this->assertEquals([

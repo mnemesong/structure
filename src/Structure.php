@@ -39,7 +39,7 @@ final class Structure implements StructureInterface
      * @param string $attributeName
      * @return scalar|null
      */
-    public function getAttribute(string $attributeName)
+    public function get(string $attributeName)
     {
         return $this->fields[$attributeName] ?? null;
     }
@@ -49,7 +49,7 @@ final class Structure implements StructureInterface
      * @param scalar|null $value
      * @return self
      */
-    public function withAttribute(string $attributeName, $value): self
+    public function with(string $attributeName, $value): self
     {
         Assert::nullOrScalar($value, "All values in array should be scalar");
         $clone = clone $this;
@@ -61,7 +61,7 @@ final class Structure implements StructureInterface
      * @param string $attributeName
      * @return bool
      */
-    public function issetAttribute(string $attributeName): bool
+    public function isset(string $attributeName): bool
     {
         return isset($this->fields[$attributeName]);
     }
@@ -70,7 +70,7 @@ final class Structure implements StructureInterface
      * @param string $attributeName
      * @return bool
      */
-    public function isEmptyAttribute(string $attributeName): bool
+    public function isEmpty(string $attributeName): bool
     {
         return empty($this->fields[$attributeName]);
     }
@@ -87,26 +87,16 @@ final class Structure implements StructureInterface
      * @param string $attributeName
      * @return bool
      */
-    public function hasAttribute(string $attributeName): bool
+    public function has(string $attributeName): bool
     {
         return array_key_exists($attributeName, $this->fields);
-    }
-
-    /**
-     * @param string $attributeName
-     * @return void
-     */
-    protected function checkAttributeExist(string $attributeName): void
-    {
-        Assert::true($this->hasAttribute($attributeName), 'Attribute ' . $attributeName
-            . 'not exist in structure');
     }
 
     /**
      * @param string[] $attributes
      * @return self
      */
-    public function withOnlyAttributes(array $attributes): self
+    public function withOnly(array $attributes): self
     {
         return new self(array_filter(
             $this->fields,
@@ -123,7 +113,7 @@ final class Structure implements StructureInterface
     {
         foreach ($this->fields as $fKey => $fVal)
         {
-            if($structure->hasAttribute($fKey) === false) {
+            if($structure->has($fKey) === false) {
                 return false;
             }
             if($structure->fields[$fKey] !== $fVal)
@@ -142,7 +132,7 @@ final class Structure implements StructureInterface
     {
         foreach ($this->fields as $fKey => $fVal)
         {
-            if($structure->hasAttribute($fKey) === false) {
+            if($structure->has($fKey) === false) {
                 return false;
             }
             if($structure->fields[$fKey] != $fVal) {
@@ -176,7 +166,7 @@ final class Structure implements StructureInterface
      * @return array
      */
     /* @phpstan-ignore-next-line */
-    public function mapAttributes(callable $mapFunction):array
+    public function map(callable $mapFunction):array
     {
         $res = [];
         foreach ($this->fields as $key => $val)
@@ -190,7 +180,7 @@ final class Structure implements StructureInterface
      * @param string $attr
      * @return self
      */
-    public function withoutAttribute(string $attr): self
+    public function without(string $attr): self
     {
         Assert::keyExists($this->fields, $attr, "Removing attribute " . $attr . " not exist");
         $array = $this->fields;
@@ -202,7 +192,7 @@ final class Structure implements StructureInterface
      * @param string[] $attrs
      * @return self
      */
-    public function getOnlyAttributes(array $attrs): self
+    public function getOnly(array $attrs): self
     {
         Assert::allString($attrs, "Parameter should be array of strings");
         foreach ($attrs as $attr)
@@ -224,7 +214,7 @@ final class Structure implements StructureInterface
     /**
      * @return string[]
      */
-    public function getAttributesList(): array
+    public function attributes(): array
     {
         return array_keys($this->fields);
     }
@@ -233,10 +223,10 @@ final class Structure implements StructureInterface
      * @param Structure $structure
      * @return bool
      */
-    public function isAttributesListEquals(Structure $structure): bool
+    public function isAttributesEquals(Structure $structure): bool
     {
         $myAttributes = array_keys($this->fields);
-        $paramAttributes = $structure->getAttributesList();
+        $paramAttributes = $structure->attributes();
 
         return (empty(array_diff($myAttributes, $paramAttributes)) && empty(array_diff($paramAttributes, $myAttributes)));
     }

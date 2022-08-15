@@ -15,44 +15,44 @@ class StructureTest extends TestCase
     {
         //Testing constuct
         $struct = new Structure(['var1' => 'someStr', 'var2' => 12]);
-        $this->assertEquals($struct->getAttribute('var1'), 'someStr');
-        $this->assertEquals($struct->getAttribute('var2'), 12);
+        $this->assertEquals($struct->get('var1'), 'someStr');
+        $this->assertEquals($struct->get('var2'), 12);
 
         //Testing setters
-        $newStruct = $struct->withAttribute('a12', 'var1af!');
-        $this->assertEquals($newStruct->getAttribute('var1'), 'someStr');
-        $this->assertEquals($newStruct->getAttribute('var2'), 12);
-        $this->assertEquals($newStruct->getAttribute('a12'), 'var1af!');
-        $this->assertEquals($struct->hasAttribute('a12'), false);
+        $newStruct = $struct->with('a12', 'var1af!');
+        $this->assertEquals($newStruct->get('var1'), 'someStr');
+        $this->assertEquals($newStruct->get('var2'), 12);
+        $this->assertEquals($newStruct->get('a12'), 'var1af!');
+        $this->assertEquals($struct->has('a12'), false);
 
-        $struct = $struct->withAttribute('var1', 299);
-        $this->assertEquals($struct->getAttribute('var1'), 299);
-        $this->assertEquals($struct->getAttribute('var2'), 12);
+        $struct = $struct->with('var1', 299);
+        $this->assertEquals($struct->get('var1'), 299);
+        $this->assertEquals($struct->get('var2'), 12);
 
         //Testing checks
         $struct = new Structure(['var1' => 1, 'var2' => '', 'var3' => null]);
 
-        $this->assertTrue($struct->hasAttribute('var1'));
-        $this->assertFalse($struct->isEmptyAttribute('var1'));
-        $this->assertTrue($struct->issetAttribute('var1'));
+        $this->assertTrue($struct->has('var1'));
+        $this->assertFalse($struct->isEmpty('var1'));
+        $this->assertTrue($struct->isset('var1'));
 
-        $this->assertTrue($struct->hasAttribute('var2'));
-        $this->assertTrue($struct->isEmptyAttribute('var2'));
-        $this->assertTrue($struct->issetAttribute('var2'));
+        $this->assertTrue($struct->has('var2'));
+        $this->assertTrue($struct->isEmpty('var2'));
+        $this->assertTrue($struct->isset('var2'));
 
-        $this->assertTrue($struct->hasAttribute('var3'));
-        $this->assertTrue($struct->isEmptyAttribute('var3'));
-        $this->assertFalse($struct->issetAttribute('var3'));
+        $this->assertTrue($struct->has('var3'));
+        $this->assertTrue($struct->isEmpty('var3'));
+        $this->assertFalse($struct->isset('var3'));
 
-        $this->assertFalse($struct->hasAttribute('var4'));
-        $this->assertTrue($struct->isEmptyAttribute('var4'));
-        $this->assertFalse($struct->issetAttribute('var4'));
+        $this->assertFalse($struct->has('var4'));
+        $this->assertTrue($struct->isEmpty('var4'));
+        $this->assertFalse($struct->isset('var4'));
 
         //Testing removing
-        $struct = $struct->withoutAttribute('var3');
-        $this->assertFalse($struct->hasAttribute('var3'));
-        $this->assertEquals($struct->getAttribute('var1'), 1);
-        $this->assertEquals($struct->getAttribute('var2'), '');
+        $struct = $struct->without('var3');
+        $this->assertFalse($struct->has('var3'));
+        $this->assertEquals($struct->get('var1'), 1);
+        $this->assertEquals($struct->get('var2'), '');
     }
 
     public function testConstructException1()
@@ -65,13 +65,13 @@ class StructureTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         /* @phpstan-ignore-next-line  */
-        $struct = (new Structure())->withAttribute('var1', ['var2' => 2]);
+        $struct = (new Structure())->with('var1', ['var2' => 2]);
     }
 
     public function testRemovingException1()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $struct = (new Structure())->withoutAttribute('var1');
+        $struct = (new Structure())->without('var1');
     }
 
     public function testToArray()
@@ -131,7 +131,7 @@ class StructureTest extends TestCase
     public function testBuildFromNewStructure()
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
-        $struct2 = $struct1->withOnlyAttributes(['var3', 'var2']);
+        $struct2 = $struct1->withOnly(['var3', 'var2']);
         $this->assertEquals(new Structure(['var3' => 'aboba', 'var2' => '12',]), $struct2);
     }
 
@@ -139,17 +139,17 @@ class StructureTest extends TestCase
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
 
-        $result = $struct->mapAttributes(fn($val, $key) => ($val . '-' . $key));
+        $result = $struct->map(fn($val, $key) => ($val . '-' . $key));
         $this->assertEquals(['var1' => 'someStr-var1', 'var2' => '12-var2', 'var3' => 'aboba-var3'], $result);
 
-        $result = $struct->mapAttributes(fn($val) => ($val . '!'));
+        $result = $struct->map(fn($val) => ($val . '!'));
         $this->assertEquals(['var1' => 'someStr!', 'var2' => '12!', 'var3' => 'aboba!'], $result);
     }
 
     public function testRemoveAttribute()
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
-        $struct = $struct->withoutAttribute('var2');
+        $struct = $struct->without('var2');
         $this->assertEquals(new Structure(['var1' => 'someStr', 'var3' => 'aboba']), $struct);
     }
 
@@ -157,31 +157,31 @@ class StructureTest extends TestCase
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $this->expectException(\InvalidArgumentException::class);
-        $newStruct = $struct->getOnlyAttributes(['var1', 'var4']);
+        $newStruct = $struct->getOnly(['var1', 'var4']);
     }
 
     public function testGetAttributesList()
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
-        $this->assertEquals(['var1', 'var2', 'var3'], $struct->getAttributesList());
+        $this->assertEquals(['var1', 'var2', 'var3'], $struct->attributes());
     }
 
     public function testIsAttributesTestEquals()
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = new Structure(['var1' => 'c214c', 'var3' => 'aaool', 'var2' => '33',]);
-        $this->assertEquals(true, $struct1->isAttributesListEquals($struct2));
+        $this->assertEquals(true, $struct1->isAttributesEquals($struct2));
 
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = new Structure(['var1' => 'c214c', 'var2' => '33', 'var4' => 'aaool']);
-        $this->assertEquals(false, $struct1->isAttributesListEquals($struct2));
+        $this->assertEquals(false, $struct1->isAttributesEquals($struct2));
 
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = new Structure(['var1' => 'c214c', 'var2' => '33']);
-        $this->assertEquals(false, $struct1->isAttributesListEquals($struct2));
+        $this->assertEquals(false, $struct1->isAttributesEquals($struct2));
 
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = new Structure(['var1' => 'c214c', 'var2' => '33', 'var3' => 'aaool', 'var4' => 14142]);
-        $this->assertEquals(false, $struct1->isAttributesListEquals($struct2));
+        $this->assertEquals(false, $struct1->isAttributesEquals($struct2));
     }
 }

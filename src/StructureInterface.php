@@ -8,26 +8,26 @@ interface StructureInterface
      * @param string $attributeName
      * @return scalar|null
      */
-    public function getAttribute(string $attributeName);
+    public function get(string $attributeName);
 
     /**
      * @param string $attributeName
      * @param scalar|null $value
      * @return self
      */
-    public function withAttribute(string $attributeName, $value): self;
+    public function with(string $attributeName, $value): self;
 
     /**
      * @param string $attributeName
      * @return bool
      */
-    public function issetAttribute(string $attributeName): bool;
+    public function isset(string $attributeName): bool;
 
     /**
      * @param string $attributeName
      * @return bool
      */
-    public function isEmptyAttribute(string $attributeName): bool;
+    public function isEmpty(string $attributeName): bool;
 
     /**
      * @return array<scalar|null>
@@ -38,13 +38,13 @@ interface StructureInterface
      * @param string $attributeName
      * @return bool
      */
-    public function hasAttribute(string $attributeName): bool;
+    public function has(string $attributeName): bool;
 
     /**
      * @param string[] $attributes
      * @return self
      */
-    public function withOnlyAttributes(array $attributes): self;
+    public function withOnly(array $attributes): self;
 
     /**
      * @param Structure $structure
@@ -75,22 +75,22 @@ interface StructureInterface
      * @return array
      */
     /* @phpstan-ignore-next-line */
-    public function mapAttributes(callable $mapFunction): array;
+    public function map(callable $mapFunction): array;
 
     /**
      * @param string $attr
      * @return self
      */
-    public function withoutAttribute(string $attr): self;
+    public function without(string $attr): self;
 
     /**
      * @return string[]
      */
-    public function getAttributesList(): array;
+    public function attributes(): array;
 
     /**
      * @param Structure $structure
      * @return bool
      */
-    public function isAttributesListEquals(Structure $structure): bool;
+    public function isAttributesEquals(Structure $structure): bool;
 }
