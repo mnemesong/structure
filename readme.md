@@ -1,4 +1,9 @@
 <h1>mnemesong/structure</h1>
+
+[![PHPUnit](https://github.com/mnemesong/structure/actions/workflows/phpunit.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpunit.yml)
+[![PHPStan-src-lvl9](https://github.com/mnemesong/structure/actions/workflows/phpstan-src.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpstan-src.yml)
+[![PHPStan-test-unit-lvl5](https://github.com/mnemesong/structure/actions/workflows/phpstan-unit.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpstan-unit.yml)
+
 The documentation is written in two languages: Russian and English.
 Документация написана на двух языках: русском и английском.
 <hr>
