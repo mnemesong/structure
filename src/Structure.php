@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Analoty Starodubtsev "Pantagruel74" Tostar74@mail.ru
  */
-class Structure implements StructureInterface
+final class Structure implements StructureInterface
 {
     /* @var array<scalar|null> $fields */
     /* @phpstan-ignore-next-line */
@@ -28,6 +28,7 @@ class Structure implements StructureInterface
     public function __construct(array $attributesAndValues = [])
     {
         foreach ($attributesAndValues as $key => $value) {
+            Assert::string($key, 'Structures may be constructed by arrays with only string-typed keys');
             $this->$key = $value;
         }
         $this->fields = $attributesAndValues;
@@ -38,43 +39,40 @@ class Structure implements StructureInterface
      * @param string $attributeName
      * @return scalar|null
      */
-    public function __get(string $attributeName)
+    public function getAttribute(string $attributeName)
     {
-        $this->checkAttributeName(strval($attributeName));
         return $this->fields[$attributeName] ?? null;
     }
 
     /**
      * @param string $attributeName
      * @param scalar|null $value
-     * @return void
+     * @return self
      */
-    public function __set(string $attributeName, $value): void
+    public function withAttribute(string $attributeName, $value): self
     {
-        $this->checkAttributeName($attributeName);
         Assert::nullOrScalar($value, "All values in array should be scalar");
-        $this->fields[$attributeName] = $value;
+        $clone = clone $this;
+        $clone->fields[$attributeName] = $value;
+        return $clone;
     }
 
     /**
      * @param string $attributeName
      * @return bool
      */
-    public function __isset(string $attributeName): bool
+    public function issetAttribute(string $attributeName): bool
     {
-        $this->checkAttributeName(strval($attributeName));
         return isset($this->fields[$attributeName]);
     }
 
     /**
      * @param string $attributeName
-     * @return void
+     * @return bool
      */
-    public function __unset(string $attributeName): void
+    public function isEmptyAttribute(string $attributeName): bool
     {
-        $this->checkAttributeName(strval($attributeName));
-        $this->checkAttributeExist($attributeName);
-        unset($this->fields[$attributeName]);
+        return empty($this->fields[$attributeName]);
     }
 
     /**
@@ -91,7 +89,6 @@ class Structure implements StructureInterface
      */
     public function hasAttribute(string $attributeName): bool
     {
-        $this->checkAttributeName(strval($attributeName));
         return array_key_exists($attributeName, $this->fields);
     }
 
@@ -107,28 +104,15 @@ class Structure implements StructureInterface
 
     /**
      * @param string[] $attributes
-     * @return Structure
+     * @return self
      */
-    public function buildNewFromAttributes(array $attributes): self
+    public function withOnlyAttributes(array $attributes): self
     {
         return new self(array_filter(
             $this->fields,
             fn(string $attrName) => (in_array($attrName, $attributes)),
             ARRAY_FILTER_USE_KEY
         ));
-    }
-
-    /**
-     * @param string $attributeName
-     * @return void
-     */
-    protected function checkAttributeName(string $attributeName): void
-    {
-        Assert::eq(
-            preg_match_all("/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/", $attributeName),
-            1,
-            'Incorrect attribute name: ' . $attributeName
-        );
     }
 
     /**
@@ -139,7 +123,10 @@ class Structure implements StructureInterface
     {
         foreach ($this->fields as $fKey => $fVal)
         {
-            if($structure->$fKey !== $fVal)
+            if($structure->hasAttribute($fKey) === false) {
+                return false;
+            }
+            if($structure->fields[$fKey] !== $fVal)
             {
                 return false;
             }
@@ -155,8 +142,10 @@ class Structure implements StructureInterface
     {
         foreach ($this->fields as $fKey => $fVal)
         {
-            if($structure->$fKey != $fVal)
-            {
+            if($structure->hasAttribute($fKey) === false) {
+                return false;
+            }
+            if($structure->fields[$fKey] != $fVal) {
                 return false;
             }
         }
@@ -170,19 +159,7 @@ class Structure implements StructureInterface
     public function isRudeEquals(Structure $structure): bool
     {
         $toArray = $structure->toArray();
-        if(count($this->fields) !== count($toArray)) {
-            return false;
-        }
-        foreach ($this->fields as $key => $val)
-        {
-            if(!key_exists($key, $toArray)) {
-                return false;
-            }
-            if($this->fields[$key] != $toArray[$key]) {
-                return false;
-            }
-        }
-        return true;
+        return $this->isIncludedRudeIn($structure) && $structure->isIncludedRudeIn($this);
     }
 
     /**
@@ -191,20 +168,7 @@ class Structure implements StructureInterface
      */
     public function isStrictlyEquals(Structure $structure): bool
     {
-        $toArray = $structure->toArray();
-        if(count($this->fields) !== count($toArray)) {
-            return false;
-        }
-        foreach ($this->fields as $key => $val)
-        {
-            if(!key_exists($key, $toArray)) {
-                return false;
-            }
-            if($this->fields[$key] !== $toArray[$key]) {
-                return false;
-            }
-        }
-        return true;
+        return $this->isIncludedStrictlyIn($structure) && $structure->isIncludedStrictlyIn($this);
     }
 
     /**
@@ -212,7 +176,7 @@ class Structure implements StructureInterface
      * @return array
      */
     /* @phpstan-ignore-next-line */
-    public function map(callable $mapFunction):array
+    public function mapAttributes(callable $mapFunction):array
     {
         $res = [];
         foreach ($this->fields as $key => $val)
@@ -226,11 +190,12 @@ class Structure implements StructureInterface
      * @param string $attr
      * @return self
      */
-    public function removeAttribute(string $attr): self
+    public function withoutAttribute(string $attr): self
     {
         Assert::keyExists($this->fields, $attr, "Removing attribute " . $attr . " not exist");
-        unset($this->fields[$attr]);
-        return $this;
+        $array = $this->fields;
+        unset($array[$attr]);
+        return new self($array);
     }
 
     /**

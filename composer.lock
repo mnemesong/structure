@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2204ef12d496925befc1f23ad26f0823",
+    "content-hash": "dfb1d2cedd1e9057235ff13df8a730e9",
     "packages": [
         {
             "name": "mnemesong/spex",
@@ -186,16 +186,16 @@
         },
         {
             "name": "mnemesong/collection-generator",
-            "version": "0.4",
+            "version": "0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnemesong/collection-generator.git",
-                "reference": "4a238bf23617a4c4ec3a49c5e4a27c0bd7fc3333"
+                "reference": "3031ab64d1331da261c13df2ea5ce88d6a723043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnemesong/collection-generator/zipball/4a238bf23617a4c4ec3a49c5e4a27c0bd7fc3333",
-                "reference": "4a238bf23617a4c4ec3a49c5e4a27c0bd7fc3333",
+                "url": "https://api.github.com/repos/mnemesong/collection-generator/zipball/3031ab64d1331da261c13df2ea5ce88d6a723043",
+                "reference": "3031ab64d1331da261c13df2ea5ce88d6a723043",
                 "shasum": ""
             },
             "require": {
@@ -215,7 +215,8 @@
             "autoload": {
                 "psr-4": {
                     "Mnemesong\\CollectionGenerator\\": "src/",
-                    "Mnemesong\\CollectionGeneratorTest\\": "test-unit/"
+                    "Mnemesong\\CollectionGeneratorTest\\": "test-unit/",
+                    "Mnemesong\\CollectionGeneratorStubs\\": "test-stubs/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -231,9 +232,9 @@
             "description": "Strictly-typed collections generator tool",
             "support": {
                 "issues": "https://github.com/mnemesong/collection-generator/issues",
-                "source": "https://github.com/mnemesong/collection-generator/tree/0.4"
+                "source": "https://github.com/mnemesong/collection-generator/tree/0.5"
             },
-            "time": "2022-08-13T22:46:06+00:00"
+            "time": "2022-08-15T07:02:11+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2283,7 +2284,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

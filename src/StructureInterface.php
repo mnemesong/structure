@@ -8,26 +8,26 @@ interface StructureInterface
      * @param string $attributeName
      * @return scalar|null
      */
-    public function __get(string $attributeName);
+    public function getAttribute(string $attributeName);
 
     /**
      * @param string $attributeName
      * @param scalar|null $value
-     * @return void
+     * @return self
      */
-    public function __set(string $attributeName, $value): void;
+    public function withAttribute(string $attributeName, $value): self;
 
     /**
      * @param string $attributeName
      * @return bool
      */
-    public function __isset(string $attributeName): bool;
+    public function issetAttribute(string $attributeName): bool;
 
     /**
      * @param string $attributeName
-     * @return void
+     * @return bool
      */
-    public function __unset(string $attributeName): void;
+    public function isEmptyAttribute(string $attributeName): bool;
 
     /**
      * @return array<scalar|null>
@@ -44,7 +44,7 @@ interface StructureInterface
      * @param string[] $attributes
      * @return self
      */
-    public function buildNewFromAttributes(array $attributes): self;
+    public function withOnlyAttributes(array $attributes): self;
 
     /**
      * @param Structure $structure
@@ -75,19 +75,13 @@ interface StructureInterface
      * @return array
      */
     /* @phpstan-ignore-next-line */
-    public function map(callable $mapFunction):array;
+    public function mapAttributes(callable $mapFunction): array;
 
     /**
      * @param string $attr
      * @return self
      */
-    public function removeAttribute(string $attr): self;
-
-    /**
-     * @param string[] $attrs
-     * @return self
-     */
-    public function getOnlyAttributes(array $attrs): self;
+    public function withoutAttribute(string $attr): self;
 
     /**
      * @return string[]
