@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfb1d2cedd1e9057235ff13df8a730e9",
+    "content-hash": "28d86d3c6671d36b406af772a37951f0",
     "packages": [
         {
             "name": "mnemesong/spex",
