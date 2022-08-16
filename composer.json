@@ -32,7 +32,6 @@
     "require": {
         "php": ">=7.4",
         "webmozart/assert": "1.11.*",
-        "mnemesong/spex": "0.2.*",
         "ext-json": "*"
     },
     "config": {

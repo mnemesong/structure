@@ -4,56 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28d86d3c6671d36b406af772a37951f0",
+    "content-hash": "a6456b5b7546b1ee245943e33a893b36",
     "packages": [
-        {
-            "name": "mnemesong/spex",
-            "version": "0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mnemesong/spex.git",
-                "reference": "7fb7e2a66dd8c7f09e9ad768bb39fb27edfdff16"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mnemesong/spex/zipball/7fb7e2a66dd8c7f09e9ad768bb39fb27edfdff16",
-                "reference": "7fb7e2a66dd8c7f09e9ad768bb39fb27edfdff16",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4",
-                "webmozart/assert": "1.11.*"
-            },
-            "require-dev": {
-                "phpstan/extension-installer": "*",
-                "phpstan/phpstan": "*",
-                "phpstan/phpstan-webmozart-assert": "*",
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mnemesong\\Spex\\": "src/",
-                    "Mnemesong\\SpexUnitTest\\": "test-unit"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pantagruel74",
-                    "email": "tostar74@mail.ru"
-                }
-            ],
-            "description": "The package provides objects and an interface for express specifications (describes the conditions for fetching records from storage)",
-            "support": {
-                "issues": "https://github.com/mnemesong/spex/issues",
-                "source": "https://github.com/mnemesong/spex/tree/0.2"
-            },
-            "time": "2022-08-13T13:32:02+00:00"
-        },
         {
             "name": "webmozart/assert",
             "version": "1.11.0",
