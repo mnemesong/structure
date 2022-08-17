@@ -2,8 +2,7 @@
 
 [![Latest Stable Version](http://poser.pugx.org/mnemesong/structure/v)](https://packagist.org/packages/mnemesong/structure)
 [![PHPUnit](https://github.com/mnemesong/structure/actions/workflows/phpunit.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpunit.yml)
-[![PHPStan-src-lvl9](https://github.com/mnemesong/structure/actions/workflows/phpstan-src.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpstan-src.yml)
-[![PHPStan-test-unit-lvl5](https://github.com/mnemesong/structure/actions/workflows/phpstan-unit.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpstan-unit.yml)
+[![PHPStan-lvl9](https://github.com/mnemesong/structure/actions/workflows/phpstan.yml/badge.svg)](https://github.com/mnemesong/structure/actions/workflows/phpstan.yml)
 [![PHP Version Require](http://poser.pugx.org/mnemesong/structure/require/php)](https://packagist.org/packages/mnemesong/structure)
 [![License](http://poser.pugx.org/mnemesong/structure/license)](https://packagist.org/packages/mnemesong/structure)
 
