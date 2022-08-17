@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Analoty Starodubtsev "Pantagruel74" Tostar74@mail.ru
  */
-final class Structure implements StructureInterface
+final class Structure
 {
     /* @var array<scalar|null> $fields */
     /* @phpstan-ignore-next-line */
