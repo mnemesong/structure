@@ -10,7 +10,10 @@ use RuntimeException;
 
 class StructureCollectionTest extends TestCase
 {
-    public static function getArrayObjects(): array
+    /**
+     * @return Structure[]
+     */
+    protected static function getArrayObjects(): array
     {
         return [
             new Structure(['name' => 'Valerua']),
@@ -20,13 +23,19 @@ class StructureCollectionTest extends TestCase
         ];
     }
 
-    public function testConstruct()
+    /**
+     * @return void
+     */
+    public function testConstruct(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals($collection->getAll(), self::getArrayObjects());
     }
 
-    public function testAdd()
+    /**
+     * @return void
+     */
+    public function testAdd(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
@@ -52,7 +61,10 @@ class StructureCollectionTest extends TestCase
         ], $collection->getAll());
     }
 
-    public function testAddOneException()
+    /**
+     * @return void
+     */
+    public function testAddOneException(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->expectException(\TypeError::class);
@@ -61,7 +73,10 @@ class StructureCollectionTest extends TestCase
             ->withNewOneItem((object) ['name' => 'Jimmie']);
     }
 
-    public function addMany()
+    /**
+     * @return void
+     */
+    public function addMany(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
@@ -88,7 +103,10 @@ class StructureCollectionTest extends TestCase
         ], $collection->getAll());
     }
 
-    public function testAddManyException()
+    /**
+     * @return void
+     */
+    public function testAddManyException(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->expectException(\InvalidArgumentException::class);
@@ -98,7 +116,10 @@ class StructureCollectionTest extends TestCase
                 new Structure(['name' => 'Clementine'])]);
     }
 
-    public function testWithoutOneObjectLike()
+    /**
+     * @return void
+     */
+    public function testWithoutOneObjectLike(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
@@ -139,11 +160,14 @@ class StructureCollectionTest extends TestCase
         ], $newCollection->getAll());
     }
 
-    public function testFiltering()
+    /**
+     * @return void
+     */
+    public function testFiltering(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
-            ->filteredBy(fn(Structure $object) => (strlen($object->get('name')) > 5));
+            ->filteredBy(fn(Structure $object) => (strlen(strval($object->get('name'))) > 5));
 
         //Test filtering
         $this->assertEquals([
@@ -161,7 +185,10 @@ class StructureCollectionTest extends TestCase
         ], $collection->getAll());
     }
 
-    public function testMapping()
+    /**
+     * @return void
+     */
+    public function testMapping(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $mapped = $collection
@@ -184,7 +211,11 @@ class StructureCollectionTest extends TestCase
         ], $collection->getAll());
     }
 
-    public function testReworkingBy()
+    /**
+     * @return void
+     * @throws \ErrorException
+     */
+    public function testReworkingBy(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
@@ -207,7 +238,10 @@ class StructureCollectionTest extends TestCase
         ], $collection->getAll());
     }
 
-    public function testCount()
+    /**
+     * @return void
+     */
+    public function testCount(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals($collection->count(), 4);
@@ -216,26 +250,38 @@ class StructureCollectionTest extends TestCase
         $this->assertEquals($newCollection->count(), 5);
     }
 
-    public function testJsonSerialize()
+    /**
+     * @return void
+     */
+    public function testJsonSerialize(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals(self::getArrayObjects(), $collection->getAll());
     }
 
-    public function testGetFirst()
+    /**
+     * @return void
+     */
+    public function testGetFirst(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals(new Structure(['name' => 'Valerua']), $collection->getFirstAsserted());
     }
 
-    public function testGetFirstException()
+    /**
+     * @return void
+     */
+    public function testGetFirstException(): void
     {
         $collection = new StructureCollection([]);
         $this->expectException(RuntimeException::class);
         $collection->getFirstAsserted();
     }
 
-    public function testGetFirstOrNull()
+    /**
+     * @return void
+     */
+    public function testGetFirstOrNull(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals(new Structure(['name' => 'Valerua']), $collection->getFirstOrNull());
@@ -244,20 +290,29 @@ class StructureCollectionTest extends TestCase
         $this->assertNull($collection->getFirstOrNull());
     }
 
-    public function testGetLast()
+    /**
+     * @return void
+     */
+    public function testGetLast(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals(new Structure(['name' => 'Clementine']), $collection->getLastAsserted());
     }
 
-    public function testGetLastException()
+    /**
+     * @return void
+     */
+    public function testGetLastException(): void
     {
         $collection = new StructureCollection([]);
         $this->expectException(RuntimeException::class);
         $collection->getLastAsserted();
     }
 
-    public function testGetLastOrNull()
+    /**
+     * @return void
+     */
+    public function testGetLastOrNull(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->assertEquals(new Structure(['name' => 'Clementine']), $collection->getLastOrNull());
@@ -266,7 +321,10 @@ class StructureCollectionTest extends TestCase
         $this->assertNull($collection->getLastOrNull());
     }
 
-    public function testAssertCount()
+    /**
+     * @return void
+     */
+    public function testAssertCount(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $first = $collection
@@ -275,25 +333,36 @@ class StructureCollectionTest extends TestCase
         $this->assertEquals(new Structure(['name' => 'Valerua']), $first);
     }
 
-    public function testAssertCountException1()
+    /**
+     * @return void
+     */
+    public function testAssertCountException1(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->expectException(\AssertionError::class);
         $collection->assertCount(fn(int $count) => ($count === 5));
     }
 
-    public function testAssertCountException2()
+    /**
+     * @return void
+     */
+    public function testAssertCountException2(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $this->expectException(\TypeError::class);
         $collection->assertCount(fn(array $count) => ($count));
     }
 
-    public function testSort()
+    /**
+     * @return void
+     * @throws \ErrorException
+     */
+    public function testSort(): void
     {
         $collection = new StructureCollection(self::getArrayObjects());
         $newCollection = $collection
-            ->sortedBy(fn(Structure $obj1, Structure $obj2) => (strcasecmp($obj1->get('name'), $obj2->get('name'))));
+            ->sortedBy(fn(Structure $obj1, Structure $obj2)
+                => (strcasecmp(strval($obj1->get('name')), strval($obj2->get('name')))));
 
         //Test sorting
         $this->assertEquals([

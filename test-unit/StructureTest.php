@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StructureTest extends TestCase
 {
-    public function testBasics()
+    public function testBasics(): void
     {
         //Testing constuct
         $struct = new Structure(['var1' => 'someStr', 'var2' => 12]);
@@ -55,32 +55,32 @@ class StructureTest extends TestCase
         $this->assertEquals($struct->get('var2'), '');
     }
 
-    public function testConstructException1()
+    public function testConstructException1(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $struct = new Structure([1 => 'someStr']);
     }
 
-    public function testSettingException1()
+    public function testSettingException1(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         /* @phpstan-ignore-next-line  */
         $struct = (new Structure())->with('var1', ['var2' => 2]);
     }
 
-    public function testRemovingException1()
+    public function testRemovingException1(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $struct = (new Structure())->without('var1');
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => 12]);
         $this->assertEquals($struct->toArray(), ['var1' => 'someStr', 'var2' => 12]);
     }
 
-    public function testIsIncludedIn()
+    public function testIsIncludedIn(): void
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => 12]);
         $struct2 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
@@ -104,7 +104,7 @@ class StructureTest extends TestCase
         $this->assertFalse($struct4->isIncludedStrictlyIn($struct1));
     }
 
-    public function testIsEquals()
+    public function testIsEquals(): void
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => 12]);
         $struct2 = new Structure(['var2' => '12', 'var1' => 'someStr']);
@@ -128,14 +128,14 @@ class StructureTest extends TestCase
         $this->assertFalse($struct4->isStrictlyEquals($struct1));
     }
 
-    public function testBuildFromNewStructure()
+    public function testBuildFromNewStructure(): void
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = $struct1->withOnly(['var3', 'var2']);
         $this->assertEquals(new Structure(['var3' => 'aboba', 'var2' => '12',]), $struct2);
     }
 
-    public function testMap()
+    public function testMap(): void
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
 
@@ -146,27 +146,27 @@ class StructureTest extends TestCase
         $this->assertEquals(['var1' => 'someStr!', 'var2' => '12!', 'var3' => 'aboba!'], $result);
     }
 
-    public function testRemoveAttribute()
+    public function testRemoveAttribute(): void
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct = $struct->without('var2');
         $this->assertEquals(new Structure(['var1' => 'someStr', 'var3' => 'aboba']), $struct);
     }
 
-    public function testGetOnlyAttributesException()
+    public function testGetOnlyAttributesException(): void
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $this->expectException(\InvalidArgumentException::class);
         $newStruct = $struct->getOnly(['var1', 'var4']);
     }
 
-    public function testGetAttributesList()
+    public function testGetAttributesList(): void
     {
         $struct = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $this->assertEquals(['var1', 'var2', 'var3'], $struct->attributes());
     }
 
-    public function testIsAttributesTestEquals()
+    public function testIsAttributesTestEquals(): void
     {
         $struct1 = new Structure(['var1' => 'someStr', 'var2' => '12', 'var3' => 'aboba']);
         $struct2 = new Structure(['var1' => 'c214c', 'var3' => 'aaool', 'var2' => '33',]);

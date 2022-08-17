@@ -25,7 +25,7 @@
     "scripts": {
         "test:unit": "phpunit test-unit",
         "lint:src": "phpstan analyse src --level 9",
-        "lint:unit": "phpstan analyse test-unit --level 5",
+        "lint:unit": "phpstan analyse test-unit --level 9",
         "gen:coll": "collection-generator"
     },
     "minimum-stability": "stable",
